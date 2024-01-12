@@ -97,7 +97,7 @@ def save_text_to_database():
         data = request.json
         text_input = data.get('textInput')
 
-        # Create a new TextEntry instance and save it to the database
+
         text_entry = TextEntry(text=text_input)
         db.session.add(text_entry)
         db.session.commit()
@@ -110,11 +110,15 @@ def save_text_to_database():
 @app.route('/save_choice', methods=['POST'])
 def save_choice():
     data = request.json
-    selected_choice = data.get('equipment')
+    selected_choice = data.get('equipment', '')  # Default to an empty string if not provided
+
+    # Optional: Handle missing school and email gracefully
+    school_name = data.get('school', 'Unknown School')  # Provide a default value
+    user_email = data.get('email', 'Unknown Email')    # Provide a default value
 
     if selected_choice:
         # Create a new Choice object and save it to the database
-        choice = SearchQuery(equipment=selected_choice)
+        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
