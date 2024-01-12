@@ -107,3 +107,16 @@ def save_text_to_database():
         return jsonify(error=str(e)), 500
 
 
+@app.route('/save_choice', methods=['POST'])
+def save_choice():
+    data = request.json
+    selected_choice = data.get('equipment')
+
+    if selected_choice:
+        # Create a new Choice object and save it to the database
+        choice = SearchQuery(equipment=selected_choice)
+        db.session.add(choice)
+        db.session.commit()
+        return jsonify(message='Choice saved successfully'), 200
+    else:
+        return jsonify(message='Invalid data'), 400
