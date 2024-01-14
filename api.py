@@ -18,7 +18,6 @@ class SearchQuery(db.Model):
     email = db.Column(db.String, nullable=False)
     equipment = db.Column(db.String) 
     response= db.Column(db.String)
-    
 app = Flask(__name__)
 
     
