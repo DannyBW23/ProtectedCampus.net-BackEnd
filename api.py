@@ -111,14 +111,14 @@ def save_text_to_database():
 def save_choice():
     data = request.json
     selected_choice = data.get('equipment', '')  # Default to an empty string if not provided
-
+    selected_choice2=data.get('response', '')
     # Optional: Handle missing school and email gracefully
     school_name = data.get('school', 'Unknown School')  # Provide a default value
     user_email = data.get('email', 'Unknown Email')    # Provide a default value
 
-    if selected_choice:
+    if selected_choice or selected_choice2:
         # Create a new Choice object and save it to the database
-        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice)
+        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice, response=selected_choice2)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
