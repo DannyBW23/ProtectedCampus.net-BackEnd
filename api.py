@@ -18,6 +18,7 @@ class SearchQuery(db.Model):
     email = db.Column(db.String, nullable=False)
     equipment = db.Column(db.String) 
     response= db.Column(db.String)
+    
 app = Flask(__name__)
 
     
@@ -57,15 +58,12 @@ def submit():
     data = request.json
     school_name = data.get('school')
     user_email = data.get('email')
-    equipment = data.get('equipment')
-    selected_option = data.get('selectedOption')
-    user_input = data.get('user_input')
-
+    
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
 
-    new_submission = SearchQuery(school=school_name, email=user_email, equipment=selected_option, response=user_input)
+    new_submission = SearchQuery(school=school_name, email=user_email)
     db.session.add(new_submission)
     db.session.commit()
 
@@ -110,17 +108,17 @@ def save_text_to_database():
 @app.route('/save_choice', methods=['POST'])
 def save_choice():
     data = request.json
-    selected_choice = data.get('equipment', '')  # Default to an empty string if not provided
-
-    # Optional: Handle missing school and email gracefully
-    school_name = data.get('school', 'Unknown School')  # Provide a default value
-    user_email = data.get('email', 'Unknown Email')    # Provide a default value
-
+    selected_choice = data.get('equipment')
+    selected_choice2 = data.get('response')
     if selected_choice:
-        # Create a new Choice object and save it to the database
-        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice)
+        choice = SearchQuery(equipment=selected_choice)
+        db.session.add(choice)
+        db.session.commit()
+        return jsonify(message='Choice saved successfully'), 200
+    if selected_choice2:
+        choice = SearchQuery(response=selected_choice2)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
     else:
-        return jsonify(message='Invalid data'), 400
+         return jsonify(message='Invalid data'), 400
