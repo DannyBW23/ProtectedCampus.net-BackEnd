@@ -58,12 +58,15 @@ def submit():
     data = request.json
     school_name = data.get('school')
     user_email = data.get('email')
-    
+    equipment = data.get('equipment')
+    selected_option = data.get('selectedOption')
+    user_input = data.get('user_input')
+
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
 
-    new_submission = SearchQuery(school=school_name, email=user_email)
+    new_submission = SearchQuery(school=school_name, email=user_email, equipment=selected_option, response=user_input)
     db.session.add(new_submission)
     db.session.commit()
 
@@ -109,16 +112,12 @@ def save_text_to_database():
 def save_choice():
     data = request.json
     selected_choice = data.get('equipment')
-    selected_choice2 = data.get('response')
+
     if selected_choice:
+        # Create a new Choice object and save it to the database
         choice = SearchQuery(equipment=selected_choice)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
-    if selected_choice2:
-        choice = SearchQuery(response=selected_choice2)
-        db.session.add(choice)
-        db.session.commit()
-        return jsonify(message='Choice saved successfully'), 200
     else:
-         return jsonify(message='Invalid data'), 400
+        return jsonify(message='Invalid data'), 400
