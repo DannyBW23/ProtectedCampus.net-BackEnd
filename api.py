@@ -82,7 +82,6 @@ def submit_survey_response():
     equipment = data.get('equipment') 
     response = data.get('response')  
     incident=data.get('incident')
-    print(f"Received data - School: {school_name}, Equipment: {equipment}, Response: {response}, Incident: {incident}")    
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
