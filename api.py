@@ -64,6 +64,7 @@ def submit():
     selected_option = data.get('selectedOption')
     user_input = data.get('user_input')
 
+    print(school_name) 
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
@@ -103,7 +104,6 @@ def save_text_to_database():
         school_input=data.get('schools')
 
         text_entry = TextEntry(text=text_input, schools=school_input)
-        print(f"Received text: {text_input}, School: {school_input}")
         db.session.add(text_entry)
         db.session.commit()
 
