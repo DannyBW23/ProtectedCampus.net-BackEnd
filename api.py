@@ -63,7 +63,7 @@ def submit():
     equipment = data.get('equipment')
     selected_option = data.get('selectedOption')
     user_input = data.get('user_input')
-    roberto=TextEntry(schools=school_name)
+
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
@@ -71,8 +71,7 @@ def submit():
     new_submission = SearchQuery(school=school_name, email=user_email, equipment=selected_option, response=user_input)
     db.session.add(new_submission)
     db.session.commit()
-    db.session.add(roberto)
-    db.commit()
+
     return jsonify({"message": "Submission successful"}), 200
 
 @app.route('/api/submit-survey-response', methods=['POST'])
@@ -101,10 +100,10 @@ def save_text_to_database():
     try:
         data = request.json
         text_input = data.get('textInput')
-        school_input=data.get('school')
+        
 
         text_entry = TextEntry(text=text_input)
-        db.session.add(text_entry)
+
         db.session.add(text_entry)
         db.session.commit()
 
@@ -121,8 +120,7 @@ def save_choice():
     selected_choice3=data.get("incident", "")
     selected_choice4=data.get("perception", "")
     selected_choice5=data.get("witness", "")
-    school_name = data.get('school', 'Unknown School') 
-
+    school_name = data.get('school', 'Unknown School')  
     user_email = data.get('email', 'Unknown Email')   
 
     if selected_choice or selected_choice2 or selected_choice3 or selected_choice4 or selected_choice5:
