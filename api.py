@@ -121,7 +121,7 @@ def save_choice():
 
     if selected_choice:
         # Create a new Choice object and save it to the database
-        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice)
+        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice, response=selected_choice2, incident=selected_choice3)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
