@@ -58,7 +58,7 @@ def get_schools():
 @app.route('/api/submit', methods=['POST'])
 def submit():
     data = request.json
-    school_name = data.get('school')
+    school_name = data.get('school','')
 
     equipment = data.get('equipment')
     selected_option = data.get('selectedOption')
