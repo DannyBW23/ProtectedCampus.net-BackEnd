@@ -63,7 +63,7 @@ def submit():
     equipment = data.get('equipment')
     selected_option = data.get('selectedOption')
     user_input = data.get('user_input')
-
+    roberto=TextEntry(schools=school_name)
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
@@ -71,7 +71,8 @@ def submit():
     new_submission = SearchQuery(school=school_name, email=user_email, equipment=selected_option, response=user_input)
     db.session.add(new_submission)
     db.session.commit()
-
+    db.session.add(roberto)
+    db.commit()
     return jsonify({"message": "Submission successful"}), 200
 
 @app.route('/api/submit-survey-response', methods=['POST'])
