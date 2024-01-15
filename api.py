@@ -100,7 +100,7 @@ def save_text_to_database():
     try:
         data = request.json
         text_input = data.get('textInput')
-        school_input=data.get('school')
+        school_input=data.get('schools')
 
         text_entry = TextEntry(text=text_input, schools=school_input)
 
