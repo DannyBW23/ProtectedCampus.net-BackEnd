@@ -101,10 +101,10 @@ def save_text_to_database():
     try:
         data = request.json
         text_input = data.get('textInput')
-        
+        school_input=data.get('school')
 
         text_entry = TextEntry(text=text_input)
-        school_entry=TextEntry(schools=school_name)
+        school_entry=TextEntry(schools=school_input)
         db.session.add(text_entry,school_entry)
         db.session.commit()
 
@@ -121,7 +121,6 @@ def save_choice():
     selected_choice3=data.get("incident", "")
     selected_choice4=data.get("perception", "")
     selected_choice5=data.get("witness", "")
-    global school_name
     school_name = data.get('school', 'Unknown School') 
 
     user_email = data.get('email', 'Unknown Email')   
