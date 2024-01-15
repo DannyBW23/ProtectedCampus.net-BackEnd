@@ -103,7 +103,7 @@ def save_text_to_database():
         school_input=data.get('school')
 
         text_entry = TextEntry(text=text_input)
-        school_entry=TextEntry(school=school_input)
+        school_entry=TextEntry(schools=school_input)
         db.session.add(text_entry,school_entry)
         db.session.commit()
 
