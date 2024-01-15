@@ -94,7 +94,7 @@ def submit_survey_response():
 class TextEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
-    school=db.Column(db.String)
+    schools=db.Column(db.String, nullable=True)
 @app.route('/api/saveTextToDatabase', methods=['POST'])
 def save_text_to_database():
     try:
