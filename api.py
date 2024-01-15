@@ -11,7 +11,7 @@ from flask_wtf.file import FileField,FileAllowed
 db = SQLAlchemy()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-accepted_schools = ["Stevenson", "Harvard", "MIT", "Stanford", "Yale", "Lehigh", "UCLA"]
+accepted_schools = ["Stevenson", "Harvard", "MIT", "Stanford", "Yale", "Lehigh University", "UCLA"]
 class SearchQuery(db.Model):   
     id = db.Column(db.Integer, primary_key=True) 
     school = db.Column(db.String, nullable=True)
