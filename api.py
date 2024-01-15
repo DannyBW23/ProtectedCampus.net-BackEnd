@@ -20,6 +20,7 @@ class SearchQuery(db.Model):
     response= db.Column(db.String)
     incident=db.Column(db.String)
     perception=db.Column(db.String)
+    witness=db.Column(db.String)
 app = Flask(__name__)
 
     
@@ -117,12 +118,13 @@ def save_choice():
     selected_choice2=data.get('response', '')
     selected_choice3=data.get("incident", "")
     selected_choice4=data.get("perception", "")
+    selected_choice5=data.get("witness", "")
     school_name = data.get('school', 'Unknown School')  
     user_email = data.get('email', 'Unknown Email')   
 
-    if selected_choice or selected_choice2 or selected_choice3 or selected_choice4:
+    if selected_choice or selected_choice2 or selected_choice3 or selected_choice4 or selected_choice5:
 
-        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice, response=selected_choice2, incident=selected_choice3, perception=selected_choice4)
+        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice, response=selected_choice2, incident=selected_choice3, perception=selected_choice4, witness=selected_choice5)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
