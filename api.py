@@ -103,9 +103,9 @@ def save_text_to_database():
         text_input = data.get('textInput')
         school_input=data.get('school')
 
-        text_entry = TextEntry(text=text_input)
-        school_entry=TextEntry(schools=school_input)
-        db.session.add(text_entry,school_entry)
+        text_entry = TextEntry(text=text_input, schools=school_input)
+        db.session.add(text_entry)
+        db.session.add(text_entry)
         db.session.commit()
 
         return jsonify(message="Text saved successfully"), 201
