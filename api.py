@@ -59,7 +59,7 @@ def get_schools():
 def submit():
     data = request.json
     school_name = data.get('school')
-    user_email = data.get('email')
+
     equipment = data.get('equipment')
     selected_option = data.get('selectedOption')
     user_input = data.get('user_input')
@@ -69,7 +69,7 @@ def submit():
         return jsonify({"error": "School not found"}), 404
 
 
-    new_submission = SearchQuery(school=school_name, email=user_email, equipment=selected_option, response=user_input)
+    new_submission = SearchQuery(school=school_name)
     db.session.add(new_submission)
     db.session.commit()
 
