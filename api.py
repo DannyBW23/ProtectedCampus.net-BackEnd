@@ -100,10 +100,10 @@ def save_text_to_database():
     try:
         data = request.json
         text_input = data.get('textInput')
-
+        id=data.get('school')
 
         text_entry = TextEntry(text=text_input)
-        db.session.add(text_entry)
+        db.session.add(text_entry, id)
         db.session.commit()
 
         return jsonify(message="Text saved successfully"), 201
