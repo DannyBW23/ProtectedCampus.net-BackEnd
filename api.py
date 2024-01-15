@@ -18,6 +18,7 @@ class SearchQuery(db.Model):
     email = db.Column(db.String, nullable=False)
     equipment = db.Column(db.String) 
     response= db.Column(db.String)
+    incident=db.Column(db.String)
 app = Flask(__name__)
 
     
@@ -77,12 +78,13 @@ def submit_survey_response():
     school_name = data.get('school')
     equipment = data.get('equipment') 
     response = data.get('response')  
-    print(f"Received data - School: {school_name}, Equipment: {equipment}, Response: {response}")    
+    incident=data.get('incident')
+    print(f"Received data - School: {school_name}, Equipment: {equipment}, Response: {response}, Incident: {incident}")    
     if school_name not in accepted_schools:
         return jsonify({"error": "School not found"}), 404
 
     # Save all the data to the database
-    search_query = SearchQuery(school=school_name, equipment=equipment,  response=response)
+    search_query = SearchQuery(school=school_name, equipment=equipment,  response=response, incident=incident )
     db.session.add(search_query)
     db.session.commit()
 
@@ -112,13 +114,14 @@ def save_choice():
     data = request.json
     selected_choice = data.get('equipment', '')  # Default to an empty string if not provided
     selected_choice2=data.get('response', '')
+    selected_choice3=data.get("incident", "")
     # Optional: Handle missing school and email gracefully
     school_name = data.get('school', 'Unknown School')  # Provide a default value
     user_email = data.get('email', 'Unknown Email')    # Provide a default value
 
-    if selected_choice or selected_choice2:
+    if selected_choice:
         # Create a new Choice object and save it to the database
-        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice, response=selected_choice2)
+        choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice)
         db.session.add(choice)
         db.session.commit()
         return jsonify(message='Choice saved successfully'), 200
