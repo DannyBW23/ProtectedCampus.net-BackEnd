@@ -94,16 +94,17 @@ def submit_survey_response():
 class TextEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
-
+    school=db.Column(db.String)
 @app.route('/api/saveTextToDatabase', methods=['POST'])
 def save_text_to_database():
     try:
         data = request.json
         text_input = data.get('textInput')
-        id=data.get('school')
+        school_input=data.get('school')
 
         text_entry = TextEntry(text=text_input)
-        db.session.add(text_entry, id)
+        school_entry=TextEntry(school=school_input)
+        db.session.add(text_entry,school_entry)
         db.session.commit()
 
         return jsonify(message="Text saved successfully"), 201
