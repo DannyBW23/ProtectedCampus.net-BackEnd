@@ -55,42 +55,42 @@ def get_schools():
 
 
 
-@app.route('/api/submit', methods=['POST'])
-def submit():
-    data = request.json
-    school_name = data.get('school','')
+# @app.route('/api/submit', methods=['POST'])
+# def submit():
+#     data = request.json
+#     school_name = data.get('school','')
 
-    equipment = data.get('equipment')
-    selected_option = data.get('selectedOption')
-    user_input = data.get('user_input')
+#     equipment = data.get('equipment')
+#     selected_option = data.get('selectedOption')
+#     user_input = data.get('user_input')
 
-    print(school_name) 
-    if school_name not in accepted_schools:
-        return jsonify({"error": "School not found"}), 404
+#     print(school_name) 
+#     if school_name not in accepted_schools:
+#         return jsonify({"error": "School not found"}), 404
 
 
-    new_submission = SearchQuery(school=school_name)
-    db.session.add(new_submission)
-    db.session.commit()
+#     new_submission = SearchQuery(school=school_name)
+#     db.session.add(new_submission)
+#     db.session.commit()
 
-    return jsonify({"message": "Submission successful"}), 200
+#     return jsonify({"message": "Submission successful"}), 200
 
-@app.route('/api/submit-survey-response', methods=['POST'])
-def submit_survey_response():
-    data = request.json
-    school_name = data.get('school')
-    equipment = data.get('equipment') 
-    response = data.get('response')  
-    incident=data.get('incident')
-    if school_name not in accepted_schools:
-        return jsonify({"error": "School not found"}), 404
+# @app.route('/api/submit-survey-response', methods=['POST'])
+# def submit_survey_response():
+#     data = request.json
+#     school_name = data.get('school')
+#     equipment = data.get('equipment') 
+#     response = data.get('response')  
+#     incident=data.get('incident')
+#     if school_name not in accepted_schools:
+#         return jsonify({"error": "School not found"}), 404
 
-    # Save all the data to the database
-    search_query = SearchQuery(school=school_name, equipment=equipment,  response=response, incident=incident )
-    db.session.add(search_query)
-    db.session.commit()
+#     # Save all the data to the database
+#     search_query = SearchQuery(school=school_name, equipment=equipment,  response=response, incident=incident )
+#     db.session.add(search_query)
+#     db.session.commit()
 
-    return jsonify({"message": "Survey response submission successful"}), 200
+#     return jsonify({"message": "Survey response submission successful"}), 200
 class TextEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
