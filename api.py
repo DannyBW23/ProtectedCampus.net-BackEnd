@@ -9,9 +9,15 @@ from flask import request, flash, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField,FileAllowed
 db = SQLAlchemy()
-
+app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-accepted_schools = ["Stevenson", "Harvard", "MIT", "Stanford", "Yale", "Lehigh University", "UCLA"]
+database_uri = os.environ.get('DATABASE_URL', '').replace('postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+
+
+db.init_app(app)
+migrate = Migrate(app, db)
+CORS(app)
 class SearchQuery(db.Model):   
     id = db.Column(db.Integer, primary_key=True) 
     school = db.Column(db.String, nullable=True)
@@ -21,23 +27,13 @@ class SearchQuery(db.Model):
     incident=db.Column(db.String)
     perception=db.Column(db.String)
     witness=db.Column(db.String)
-app = Flask(__name__)
 
+class TextEntry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(255), nullable=False)
+    schools=db.Column(db.String, nullable=True)
     
-database_uri = os.environ.get('DATABASE_URL', '').replace('postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(basedir, 'app.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
-
-db.init_app(app)
-migrate = Migrate(app, db)
-CORS(app)
-@app.route('/hello')
-def hello():
-    return 'Hello, World!'
-
-@app.route('/api/time', methods=["GET"])
-def get_current_time():
-    return jsonify({'time': time.time()})
 
 @app.route('/api/schools', methods=['GET'])
 def get_schools():
@@ -52,49 +48,6 @@ def get_schools():
     return jsonify([school.school for school in schools])
 
 
-
-
-
-# @app.route('/api/submit', methods=['POST'])
-# def submit():
-#     data = request.json
-#     school_name = data.get('school','')
-
-#     equipment = data.get('equipment')
-#     selected_option = data.get('selectedOption')
-#     user_input = data.get('user_input')
-
-#     print(school_name) 
-#     if school_name not in accepted_schools:
-#         return jsonify({"error": "School not found"}), 404
-
-
-#     new_submission = SearchQuery(school=school_name)
-#     db.session.add(new_submission)
-#     db.session.commit()
-
-#     return jsonify({"message": "Submission successful"}), 200
-
-# @app.route('/api/submit-survey-response', methods=['POST'])
-# def submit_survey_response():
-#     data = request.json
-#     school_name = data.get('school')
-#     equipment = data.get('equipment') 
-#     response = data.get('response')  
-#     incident=data.get('incident')
-#     if school_name not in accepted_schools:
-#         return jsonify({"error": "School not found"}), 404
-
-#     # Save all the data to the database
-#     search_query = SearchQuery(school=school_name, equipment=equipment,  response=response, incident=incident )
-#     db.session.add(search_query)
-#     db.session.commit()
-
-#     return jsonify({"message": "Survey response submission successful"}), 200
-class TextEntry(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(255), nullable=False)
-    schools=db.Column(db.String, nullable=True)
 @app.route('/api/saveTextToDatabase', methods=['POST'])
 def save_text_to_database():
     try:
