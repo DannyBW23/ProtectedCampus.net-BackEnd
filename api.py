@@ -1,23 +1,19 @@
-import time
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
-import uuid
-from flask import request, flash, redirect, url_for, render_template
-from werkzeug.utils import secure_filename
-from flask_wtf.file import FileField,FileAllowed
+
 db = SQLAlchemy()
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 database_uri = os.environ.get('DATABASE_URL', '').replace('postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
-
-
 db.init_app(app)
 migrate = Migrate(app, db)
 CORS(app)
+
+
 class SearchQuery(db.Model):   
     id = db.Column(db.Integer, primary_key=True) 
     school = db.Column(db.String, nullable=True)
