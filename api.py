@@ -34,9 +34,9 @@ class TextEntry(db.Model):
 
 class ContactEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
-    name=db.Column(db.String, nullable=True)
-    emails=db.Column(db.String, nullable=True)
-    message=db.Column(db.String, nullable=True)
+    name=db.Column(db.String(255), nullable=True)
+    emails=db.Column(db.String(255), nullable=True)
+    message=db.Column(db.String(255), nullable=True)
     school=db.Column(db.String, nullable=True)
 @app.route('/api/schools', methods=['GET'])
 def get_schools():
