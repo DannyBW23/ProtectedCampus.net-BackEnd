@@ -32,7 +32,7 @@ class TextEntry(db.Model):
     schools=db.Column(db.String, nullable=True)
     situation=db.Column(db.String, nullable=True) 
 
-class Contact(db.Model):
+class ContactEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     name=db.Column(db.String, nullable=True)
     emails=db.Column(db.String, nullable=True)
