@@ -92,6 +92,7 @@ def save_choice():
 @app.route('/api/saveContactToDatabase', methods=['POST'])
 def save_contact_to_database():
     try:
+        print("Received contact save request")  
         data = request.json
         name_input = data.get('name')
         emails_input=data.get('emails')
