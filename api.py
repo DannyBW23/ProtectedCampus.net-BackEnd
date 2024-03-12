@@ -95,6 +95,7 @@ def save_contact_to_database():
         print("Received contact save request")  
         data = request.json
         name_input = data.get('name')
+        print(name_input)
         emails_input=data.get('emails')
         message_input=data.get('message')   
         school_input=data.get('schools')
