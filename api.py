@@ -3,7 +3,8 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
-
+import logging
+logging.basicConfig(level=logging.DEBUG)
 db = SQLAlchemy()
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -91,6 +92,7 @@ def save_choice():
 
 @app.route('/api/saveContactToDatabase', methods=['POST'])
 def save_contact_to_database():
+    logging.info("API /api/saveContactToDatabase called")
     try:
         print("Received contact save request")  
         data = request.json
@@ -105,4 +107,5 @@ def save_contact_to_database():
 
         return jsonify(message="Text saved successfully"), 201
     except Exception as e:
+        logging.error("Error in /api/saveContactToDatabase:", exc_info=True)  # Log the error details
         return jsonify(error=str(e)), 500
