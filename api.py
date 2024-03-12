@@ -32,7 +32,12 @@ class TextEntry(db.Model):
     schools=db.Column(db.String, nullable=True)
     situation=db.Column(db.String, nullable=True) 
 
-
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True) 
+    name=db.Column(db.String, nullable=True)
+    emails=db.Column(db.String, nullable=True)
+    message=db.Column(db.String, nullable=True)
+    school=db.Column(db.String, nullable=True)
 @app.route('/api/schools', methods=['GET'])
 def get_schools():
     search_query = request.args.get('name', '')  
@@ -53,7 +58,7 @@ def save_text_to_database():
         text_input = data.get('textInput')
         school_input=data.get('schools')
         situation_input=data.get('situation')
-        print(situation_input)
+ 
         text_entry = TextEntry(text=text_input, schools=school_input, situation=situation_input)
         db.session.add(text_entry)
         db.session.commit()
@@ -73,7 +78,7 @@ def save_choice():
     selected_choice5=data.get("witness", "")
     school_name = data.get('school', 'Unknown School')  
     user_email = data.get('email', 'Unknown Email')   
-    print(school_name)
+
     if selected_choice or selected_choice2 or selected_choice3 or selected_choice4 or selected_choice5:
 
         choice = SearchQuery(school=school_name, email=user_email, equipment=selected_choice, response=selected_choice2, incident=selected_choice3, perception=selected_choice4, witness=selected_choice5)
@@ -82,3 +87,20 @@ def save_choice():
         return jsonify(message='Choice saved successfully'), 200
     else:
         return jsonify(message='Invalid data'), 400
+    
+
+@app.route('/api/saveContactToDatabase', methods=['POST'])
+def save_contact_to_database():
+    try:
+        data = request.json
+        name_input = data.get('name')
+        emails_input=data.get('emails')
+        message_input=data.get('message')   
+        school_input=data.get('schools')
+        contact_entry = Contact(name=name_input, emails=emails_input, message=message_input, school=school_input )
+        db.session.add(contact_entry)
+        db.session.commit()
+
+        return jsonify(message="Text saved successfully"), 201
+    except Exception as e:
+        return jsonify(error=str(e)), 500
