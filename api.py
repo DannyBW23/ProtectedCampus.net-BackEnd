@@ -97,7 +97,7 @@ def save_contact_to_database():
         emails_input=data.get('emails')
         message_input=data.get('message')   
         school_input=data.get('schools')
-        contact_entry = Contact(name=name_input, emails=emails_input, message=message_input, school=school_input )
+        contact_entry = ContactEntry(name=name_input, emails=emails_input, message=message_input, school=school_input )
         db.session.add(contact_entry)
         db.session.commit()
 
