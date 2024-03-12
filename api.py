@@ -90,7 +90,7 @@ def save_choice():
         return jsonify(message='Invalid data'), 400
     
 
-@app.route('/api/saveContactToDatabase', methods=['POST'])
+@app.route('/api/saveContactToDatabase', methods=['POST', "GET"])
 def save_contact_to_database():
     logging.info("API /api/saveContactToDatabase called")
     try:
