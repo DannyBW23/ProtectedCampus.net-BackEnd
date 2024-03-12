@@ -14,6 +14,7 @@ migrate = Migrate(app, db)
 CORS(app)
 
 
+
 class SearchQuery(db.Model):   
     id = db.Column(db.Integer, primary_key=True) 
     school = db.Column(db.String, nullable=True)
@@ -23,12 +24,13 @@ class SearchQuery(db.Model):
     incident=db.Column(db.String)
     perception=db.Column(db.String)
     witness=db.Column(db.String)
+  
 
 class TextEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
     schools=db.Column(db.String, nullable=True)
-    
+    situation=db.Column(db.String) 
 
 
 @app.route('/api/schools', methods=['GET'])
@@ -50,8 +52,8 @@ def save_text_to_database():
         data = request.json
         text_input = data.get('textInput')
         school_input=data.get('schools')
-
-        text_entry = TextEntry(text=text_input, schools=school_input)
+        situation_input=data.get('situation')
+        text_entry = TextEntry(text=text_input, schools=school_input, situation=situation_input)
         db.session.add(text_entry)
         db.session.commit()
 
