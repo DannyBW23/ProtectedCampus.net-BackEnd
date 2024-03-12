@@ -30,7 +30,7 @@ class TextEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
     schools=db.Column(db.String, nullable=True)
-    situation=db.Column(db.String) 
+    situation=db.Column(db.String, nullable=True) 
 
 
 @app.route('/api/schools', methods=['GET'])
@@ -53,6 +53,7 @@ def save_text_to_database():
         text_input = data.get('textInput')
         school_input=data.get('schools')
         situation_input=data.get('situation')
+        print(situation_input)
         text_entry = TextEntry(text=text_input, schools=school_input, situation=situation_input)
         db.session.add(text_entry)
         db.session.commit()
